@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import type { ChatbotWidgetProps, Message, ChatState } from './types';
+import type { ChatbotWidgetProps, Message, ChatState, ChatMessage, MessageRole } from './types';
 import {
   FloatingButton,
   ChatContainer,
@@ -15,7 +15,7 @@ const DEFAULT_BUTTON_COLOR = '#0070f3';
 const DEFAULT_THEME_COLOR = '#0070f3';
 const DEFAULT_GREETING = '👋 Hi there! How can I help you today?';
 const DEFAULT_SYSTEM_INSTRUCTIONS = 'You are a helpful assistant';
-const DEFAULT_AI_HANDLER = async (messages: { role: 'system' | 'user' | 'assistant', content: string }[]) => {
+const DEFAULT_AI_HANDLER = async (messages: ChatMessage[]) => {
   console.warn('No AI handler provided. Using mock response.');
   return 'This is a mock response. Please provide an AI handler to enable real responses.';
 };
@@ -82,14 +82,14 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
       loading: true
     }));
     setInputValue('');    try {
-      const messages = [
+      const messages: ChatMessage[] = [
         { role: 'system', content: systemInstructions },
         ...state.messages.map(msg => ({
           role: msg.sender === 'user' ? 'user' : 'assistant',
           content: msg.text
         })),
         { role: 'user', content: userMessage.text }
-      ];
+      ] as ChatMessage[];
 
       const response = await aiHandler(messages);
       
