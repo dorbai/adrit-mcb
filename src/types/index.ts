@@ -1,9 +1,16 @@
+type MessageRole = 'system' | 'user' | 'assistant';
+
+export interface ChatMessage {
+  role: MessageRole;
+  content: string;
+}
+
 export interface ChatbotWidgetProps {
   buttonColor?: string;
   themeColor?: string;
   greeting?: string;
   systemInstructions?: string;
-  aiHandler?: (messages: { role: 'system' | 'user' | 'assistant', content: string }[]) => Promise<string>;
+  aiHandler?: (messages: ChatMessage[]) => Promise<string>;
 }
 
 export interface Message {

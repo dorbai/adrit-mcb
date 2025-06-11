@@ -15,7 +15,7 @@ const DEFAULT_BUTTON_COLOR = '#0070f3';
 const DEFAULT_THEME_COLOR = '#0070f3';
 const DEFAULT_GREETING = '👋 Hi there! How can I help you today?';
 const DEFAULT_SYSTEM_INSTRUCTIONS = 'You are a helpful assistant';
-const DEFAULT_AI_HANDLER = async (messages: { role: string, content: string }[]) => {
+const DEFAULT_AI_HANDLER = async (messages: { role: 'system' | 'user' | 'assistant', content: string }[]) => {
   console.warn('No AI handler provided. Using mock response.');
   return 'This is a mock response. Please provide an AI handler to enable real responses.';
 };
