@@ -14,13 +14,13 @@ A customizable, floating chatbot widget for React applications that provides an 
 ## Installation
 
 ```bash
-npm install floating-chatbot-widget
+npm install adrit-mcb
 ```
 
 ## Usage
 
 ```jsx
-import { ChatbotWidget } from 'floating-chatbot-widget';
+import { ChatbotWidget } from 'adrit-mcb';
 
 function App() {
   return (
