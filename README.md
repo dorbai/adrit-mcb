@@ -46,6 +46,32 @@ function App() {
 
 ## AI Integration
 
+### Using Gemini via Genkit (recommended)
+
+1. Create a Gemini API key in [Google AI Studio](https://makersuite.google.com/app/apikey).
+2. Expose the key to your build/deployment environment as an environment variable named `GEMINI_API_KEY` (or `VITE_GEMINI_API_KEY` if you use Vite).
+3. No further code is required; the widget automatically picks up the key via Genkit and uses the `gemini-2.0-flash` model by default.
+
+```bash
+# Unix-like
+export GEMINI_API_KEY="YOUR_KEY"
+
+# Windows (PowerShell)
+$Env:GEMINI_API_KEY="YOUR_KEY"
+```
+
+If you need a custom model or wish to keep the key separate, create a handler:
+
+```ts
+import { createGenkitHandler } from 'adrit-mcb/dist/genkitHandler';
+
+const aiHandler = createGenkitHandler('YOUR_KEY', 'gemini-2.0-pro');
+
+<ChatbotWidget aiHandler={aiHandler} />
+```
+
+### Bring your own AI service
+
 You can integrate any AI service by providing an `aiHandler` function. Here's an example:
 
 ```typescript

@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { defaultGenkitHandler } from './genkitHandler';
 import type { ChatbotWidgetProps, Message, ChatState, ChatMessage, MessageRole } from './types';
 import {
   FloatingButton,
@@ -16,10 +17,7 @@ const DEFAULT_BUTTON_COLOR = '#0070f3';
 const DEFAULT_THEME_COLOR = '#0070f3';
 const DEFAULT_GREETING = '👋 Hi there! How can I help you today?';
 const DEFAULT_SYSTEM_INSTRUCTIONS = 'You are a helpful assistant';
-const DEFAULT_AI_HANDLER = async (messages: ChatMessage[]) => {
-  console.warn('No AI handler provided. Using mock response.');
-  return 'This is a mock response. Please provide an AI handler to enable real responses.';
-};
+const DEFAULT_AI_HANDLER = defaultGenkitHandler;
 
 export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
   buttonColor = DEFAULT_BUTTON_COLOR,

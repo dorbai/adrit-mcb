@@ -1,4 +1,4 @@
-import styled, { css, styled } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const FloatingButton = styled.button<{ $buttonColor: string }>`
   position: fixed;
@@ -59,7 +59,8 @@ export const ChatFooter = styled.div`
   font-style: italic;
   font-size: 8px;
   text-align: center;
-`
+  
+`;
 
 export const MessagesContainer = styled.div`
   flex: 1;
