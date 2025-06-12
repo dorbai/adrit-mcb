@@ -4,6 +4,7 @@ import {
   FloatingButton,
   ChatContainer,
   ChatHeader,
+  ChatFooter,
   MessagesContainer,
   MessageBubble,
   InputContainer,
@@ -129,7 +130,7 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
       
       <ChatContainer $isOpen={state.isOpen} $themeColor={themeColor}>
         <ChatHeader $themeColor={themeColor}>
-          Chat Support
+          AI Chat
         </ChatHeader>
         
         <MessagesContainer>
@@ -161,6 +162,9 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
             {state.loading ? '...' : 'Send'}
           </SendButton>
         </InputContainer>
+        <ChatFooter>
+          Powered by <a href='https://dorbai.com'>DORB AI</a>
+        </ChatFooter>
       </ChatContainer>
     </>
   );
