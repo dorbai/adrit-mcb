@@ -1,55 +1,51 @@
-import { googleAI } from '@genkit-ai/googleai';
-import { genkit } from 'genkit';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import type { ChatMessage } from './types';
 
 /**
- * Creates a Genkit-powered AI handler for the ChatbotWidget.
- *
- * You typically call this once at app start and pass the resulting function
- * into the widget via the `aiHandler` prop:
- *
- * ```tsx
- * const aiHandler = createGenkitHandler(import.meta.env.VITE_GEMINI_API_KEY!);
+ * Creates a Google AI handler for the ChatbotWidget.
+ * 
+ * @example
+ * const aiHandler = createGoogleAIHandler('your-api-key');
  * <ChatbotWidget aiHandler={aiHandler} />
- * ```
- *
- * For Node.js (for example if you expose the handler through an API route)
- * you can rely on the `GEMINI_API_KEY` environment variable and simply use
- * `defaultGenkitHandler`.
  */
-export function createGenkitHandler(apiKey: string, modelId = 'gemini-2.0-flash') {
+export function createGoogleAIHandler(apiKey: string, modelId = 'gemini-1.5-flash') {
   if (!apiKey) {
-    console.warn('[adrit-mcb] createGenkitHandler called with empty apiKey.');
+    console.warn('[adrit-mcb] createGoogleAIHandler called with empty apiKey.');
   }
 
-  // Configure Genkit once.
-  const ai = genkit({
-    plugins: [googleAI({ apiKey })],
-    model: googleAI.model(modelId),
-  });
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: modelId });
 
-  // The function returned matches the ChatbotWidget `aiHandler` signature.
   return async (messages: ChatMessage[]): Promise<string> => {
-    // Convert structured messages into a simple text prompt.
-    const prompt = messages
-      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
-      .join('\n');
+    try {
+      // Convert messages to the format expected by the Google AI SDK
+      const chat = model.startChat({
+        history: messages.slice(0, -1).map(msg => ({
+          role: msg.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: msg.content }],
+        })),
+        generationConfig: {
+          maxOutputTokens: 1000,
+        },
+      });
 
-    const { text } = await ai.generate(prompt);
-    return text;
+      const lastMessage = messages[messages.length - 1];
+      const result = await chat.sendMessage(lastMessage.content);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Error calling Google AI:', error);
+      return 'Sorry, I encountered an error processing your request.';
+    }
   };
 }
 
 /**
- * A ready-to-use handler that relies on the `GEMINI_API_KEY` environment
- * variable.  In browser builds this is usually provided via your bundler
- * (e.g. `VITE_GEMINI_API_KEY` → `import.meta.env.GEMINI_API_KEY`).  If the
- * variable is missing we fall back to a mock response so the UI still works
- * during development.
+ * A ready-to-use handler that relies on the `GEMINI_API_KEY` environment variable.
+ * In browser builds, this usually comes from your bundler's environment variables.
  */
-export const defaultGenkitHandler = createGenkitHandler(
-  // Prefer vite/webpack env vars in browser, fall back to Node env.
-  (typeof import.meta !== 'undefined' && (import.meta as any).env?.GEMINI_API_KEY) ||
-    process.env.GEMINI_API_KEY ||
+export const defaultAIHandler = createGoogleAIHandler(
+  (typeof process !== 'undefined' ? process.env.GEMINI_API_KEY : '') ||
+    (typeof import.meta !== 'undefined' ? (import.meta as any).env?.GEMINI_API_KEY : '') ||
     ''
 );
