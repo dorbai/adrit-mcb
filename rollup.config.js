@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
@@ -8,17 +9,25 @@ export default {
     {
       file: 'dist/index.js',
       format: 'cjs',
+      inlineDynamicImports: true,
       sourcemap: true,
     },
     {
       file: 'dist/index.esm.js',
       format: 'esm',
+      inlineDynamicImports: true,
       sourcemap: true,
     },
   ],
-  external: ['react', 'react-dom', 'styled-components', 'genkit'],
+  external: [
+    'react',
+    'react-dom',
+    'styled-components',
+    '@google/generative-ai'
+  ],
   plugins: [
     resolve(),
+    json(),
     commonjs(),
     typescript({
       tsconfig: './tsconfig.json',

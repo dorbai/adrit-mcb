@@ -51,6 +51,17 @@ export const ChatHeader = styled.div<{ $themeColor: string }>`
   font-weight: 600;
 `;
 
+export const ChatFooter = styled.div`
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  color: black;
+  font-style: italic;
+  font-size: 8px;
+  text-align: center;
+  
+`;
+
 export const MessagesContainer = styled.div`
   flex: 1;
   overflow-y: auto;
