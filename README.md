@@ -50,7 +50,7 @@ function App() {
 
 1. Create a Gemini API key in [Google AI Studio](https://makersuite.google.com/app/apikey).
 2. Expose the key to your build/deployment environment as an environment variable named `GEMINI_API_KEY` (or `VITE_GEMINI_API_KEY` if you use Vite).
-3. No further code is required; the widget automatically picks up the key and uses the `gemini-1.5-flash` model by default.
+3. No further code is required; the widget automatically picks up the key and uses the `gemini-2.0-flash` model by default.
 
 ```bash
 # Unix-like
@@ -65,7 +65,8 @@ If you need a custom model or wish to keep the key separate, create a handler:
 ```tsx
 import { createGoogleAIHandler } from 'adrit-mcb/dist/genkitHandler';
 
-const aiHandler = createGoogleAIHandler('YOUR_KEY', 'gemini-1.5-pro');
+// Available models: 'gemini-2.0-flash', 'gemini-2.0-pro', 'gemini-1.5-pro', etc.
+const aiHandler = createGoogleAIHandler('YOUR_KEY', 'gemini-2.0-pro');
 
 <ChatbotWidget aiHandler={aiHandler} />
 ```
