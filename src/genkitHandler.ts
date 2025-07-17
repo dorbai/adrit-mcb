@@ -8,7 +8,7 @@ import type { ChatMessage } from './types';
  * const aiHandler = createGoogleAIHandler('your-api-key');
  * <ChatbotWidget aiHandler={aiHandler} />
  */
-export function createGoogleAIHandler(apiKey: string, modelId = 'gemini-1.5-flash') {
+export function createGoogleAIHandler(apiKey: string, modelId = 'gemini-2.0-flash') {
   if (!apiKey) {
     console.warn('[adrit-mcb] createGoogleAIHandler called with empty apiKey.');
   }
