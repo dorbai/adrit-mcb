@@ -23,7 +23,8 @@ export default {
     'react',
     'react-dom',
     'styled-components',
-    '@google/generative-ai'
+    '@google/generative-ai',
+    /react-dom\[.*]/, //handles all versions of react-dom
   ],
   plugins: [
     resolve(),
