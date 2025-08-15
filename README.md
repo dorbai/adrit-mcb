@@ -102,6 +102,42 @@ npm run dev
 npm run build
 ```
 
+
+## Integration with Next.js App Router and Dynamic Import
+
+We integrate the adrit-mcb chatbot widget using a dynamic import and render it only on the client.
+
+### Installation
+
+```bash
+npm i adrit-mcb
+# optional for React 19 type alignment
+npm i -D @types/react@^19 @types/react-dom@^19
+```
+
+### Make the page a Client Component
+
+At the very top of the page where you render the widget (e.g., `src/app/page.tsx`):
+
+```tsx
+"use client";
+```
+
+### Dynamic import (in the same file)
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const ChatbotWidget = dynamic(
+  () => import('adrit-mcb').then(m => m.ChatbotWidget as any),
+  { ssr: false }
+);
+
+// later in JSX
+<ChatbotWidget />
+```
+
+
 ## License
 
 MIT
